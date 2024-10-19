@@ -1,0 +1,217 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Loan Calculator API",
+    "version": "0.1.0",
+    "description": ""
+  },
+  "paths": {
+    "/api/calculator/calculate": {
+      "post": {
+        "operationId": "calculator_api_calculate_loan",
+        "summary": "Calculate Loan",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoanOutputSchema"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoanInputSchema"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/api/calculator/save-scenario": {
+      "post": {
+        "operationId": "calculator_api_save_scenario",
+        "summary": "Save Scenario",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoanInputSchema"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/api/calculator/scenarios": {
+      "get": {
+        "operationId": "calculator_api_get_scenarios",
+        "summary": "Get Scenarios",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/LoanOutputSchema"
+                  },
+                  "title": "Response",
+                  "type": "array"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "LoanOutputSchema": {
+        "properties": {
+          "total_loan_amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Total Loan Amount"
+          },
+          "monthly_payment": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Monthly Payment"
+          },
+          "total_amount_paid": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Total Amount Paid"
+          },
+          "total_interest_paid": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Total Interest Paid"
+          }
+        },
+        "required": [
+          "total_loan_amount",
+          "monthly_payment",
+          "total_amount_paid",
+          "total_interest_paid"
+        ],
+        "title": "LoanOutputSchema",
+        "type": "object"
+      },
+      "LoanInputSchema": {
+        "properties": {
+          "purchase_price": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0,
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Purchase Price"
+          },
+          "down_payment": {
+            "anyOf": [
+              {
+                "minimum": 0,
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Down Payment"
+          },
+          "down_payment_type": {
+            "enum": [
+              "amount",
+              "percentage"
+            ],
+            "title": "Down Payment Type",
+            "type": "string"
+          },
+          "mortgage_term": {
+            "exclusiveMinimum": 0,
+            "title": "Mortgage Term",
+            "type": "integer"
+          },
+          "term_type": {
+            "enum": [
+              "years",
+              "months"
+            ],
+            "title": "Term Type",
+            "type": "string"
+          },
+          "interest_rate": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0,
+                "maximum": 30,
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Interest Rate"
+          }
+        },
+        "required": [
+          "purchase_price",
+          "down_payment",
+          "down_payment_type",
+          "mortgage_term",
+          "term_type",
+          "interest_rate"
+        ],
+        "title": "LoanInputSchema",
+        "type": "object"
+      }
+    }
+  },
+  "servers": []
+}
