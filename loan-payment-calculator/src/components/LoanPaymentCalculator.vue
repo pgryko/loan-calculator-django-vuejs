@@ -164,7 +164,7 @@ export default defineComponent({
     const calculateLoan = async () => {
       try {
         error.value = null
-        loanOutput.value = await serverApi.calculatorApiCalculateLoan(loanInput)
+        loanOutput.value = await serverApi.default.calculatorApiCalculateLoan(loanInput)
       } catch (err) {
         error.value =
           'An error occurred while calculating the loan. Please try again.'
@@ -174,7 +174,7 @@ export default defineComponent({
 
     const saveScenario = async () => {
       try {
-        await serverApi.calculatorApiSaveScenario(loanInput)
+        await serverApi.default.calculatorApiSaveScenario(loanInput)
         alert('Scenario saved successfully!')
       } catch (err) {
         alert('Failed to save scenario. Please try again.')
@@ -184,7 +184,7 @@ export default defineComponent({
 
     const loadScenarios = async () => {
       try {
-        savedScenarios.value = await serverApi.calculatorApiGetScenarios()
+        savedScenarios.value = await serverApi.default.calculatorApiGetScenarios()
         scenariosDialog.value = true
       } catch (err) {
         alert('Failed to load scenarios. Please try again.')

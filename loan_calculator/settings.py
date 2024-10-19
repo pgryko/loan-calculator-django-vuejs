@@ -132,8 +132,7 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-DEBUG = True
 if DEBUG:
-    INSTALLED_APPS += ["django_extensions"]
+    # INSTALLED_APPS += ["django_extensions"]
     CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
     ALLOWED_HOSTS = ["localhost"]
