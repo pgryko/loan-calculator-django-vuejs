@@ -73,7 +73,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   data() {
@@ -85,13 +85,13 @@ export default defineComponent({
       mortgageTerm: null,
       loanDetails: [], // List of loan details to be displayed in the table
       headers: [
-        { text: "Mortgage Term", value: "term" },
-        { text: "Monthly Payment", value: "payment" },
-        { text: "Interest Rate", value: "interestRate" },
-        { text: "Total Amount", value: "totalAmount" },
-        { text: "Total over Loan Term", value: "totalOverTerm" },
+        { text: 'Mortgage Term', value: 'term' },
+        { text: 'Monthly Payment', value: 'payment' },
+        { text: 'Interest Rate', value: 'interestRate' },
+        { text: 'Total Amount', value: 'totalAmount' },
+        { text: 'Total over Loan Term', value: 'totalOverTerm' },
       ],
-    };
+    }
   },
   methods: {
     generateRates() {
@@ -111,10 +111,10 @@ export default defineComponent({
           totalAmount: 350000,
           totalOverTerm: 420000,
         },
-      ];
+      ]
     },
   },
-});
+})
 </script>
 
 <style scoped>

@@ -25,13 +25,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import LoanPaymentCalculator from './components/LoanPaymentCalculator.vue';
+import { defineComponent } from 'vue'
+import LoanPaymentCalculator from './components/LoanPaymentCalculator.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
     LoanPaymentCalculator,
   },
-});
+})
 </script>
