@@ -78,12 +78,6 @@
             class="mt-4"
             >Calculate Loan</v-btn
           >
-          <v-btn color="secondary" block @click="saveScenario" class="mt-2"
-            >Save Scenario</v-btn
-          >
-          <v-btn color="info" block @click="loadScenarios" class="mt-2"
-            >Load Scenarios</v-btn
-          >
         </v-form>
       </v-col>
       <v-col cols="12" md="8">
@@ -108,33 +102,7 @@
         <v-alert v-if="error" type="error" class="mt-4">{{ error }}</v-alert>
       </v-col>
     </v-row>
-    <v-dialog v-model="scenariosDialog" max-width="500px">
-      <v-card>
-        <v-card-title>Saved Scenarios</v-card-title>
-        <v-card-text>
-          <v-list>
-            <v-list-item
-              v-for="(scenario, index) in savedScenarios"
-              :key="index"
-              @click="loadScenario(scenario)"
-            >
-              <v-list-item-title>Scenario {{ index + 1 }}</v-list-item-title>
-              <v-list-item-subtitle
-                >${{ formatNumber(scenario.total_loan_amount) }} / ${{
-                  formatNumber(scenario.monthly_payment)
-                }}
-                per month</v-list-item-subtitle
-              >
-            </v-list-item>
-          </v-list>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn color="primary" text @click="scenariosDialog = false"
-            >Close</v-btn
-          >
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <v-dialog v-model="scenariosDialog" max-width="500px"> </v-dialog>
   </v-container>
 </template>
 
@@ -164,37 +132,13 @@ export default defineComponent({
     const calculateLoan = async () => {
       try {
         error.value = null
-        loanOutput.value = await serverApi.default.calculatorApiCalculateLoan(loanInput)
+        loanOutput.value =
+          await serverApi.default.calculatorApiCalculateLoan(loanInput)
       } catch (err) {
         error.value =
           'An error occurred while calculating the loan. Please try again.'
         console.error(err)
       }
-    }
-
-    const saveScenario = async () => {
-      try {
-        await serverApi.default.calculatorApiSaveScenario(loanInput)
-        alert('Scenario saved successfully!')
-      } catch (err) {
-        alert('Failed to save scenario. Please try again.')
-        console.error(err)
-      }
-    }
-
-    const loadScenarios = async () => {
-      try {
-        savedScenarios.value = await serverApi.default.calculatorApiGetScenarios()
-        scenariosDialog.value = true
-      } catch (err) {
-        alert('Failed to load scenarios. Please try again.')
-        console.error(err)
-      }
-    }
-
-    const loadScenario = (scenario: LoanOutputSchema) => {
-      loanOutput.value = scenario
-      scenariosDialog.value = false
     }
 
     const formatNumber = (value: number | string): string => {
@@ -210,12 +154,8 @@ export default defineComponent({
       loanInput,
       loanOutput,
       error,
-      savedScenarios,
       scenariosDialog,
       calculateLoan,
-      saveScenario,
-      loadScenarios,
-      loadScenario,
       formatNumber,
     }
   },
