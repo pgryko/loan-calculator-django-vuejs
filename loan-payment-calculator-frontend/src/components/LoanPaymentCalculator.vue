@@ -81,21 +81,33 @@
         </v-form>
       </v-col>
       <v-col cols="12" md="8">
-        <v-table v-if="loanOutput">
+        <v-table v-if="loanOutputs.length > 0">
           <thead>
             <tr>
-              <th>Total Loan Amount</th>
-              <th>Monthly Payment</th>
-              <th>Total Amount Paid</th>
-              <th>Total Interest Paid</th>
+              <th
+                v-for="header in headers"
+                :key="header.value"
+                @click="sort(header.value)"
+              >
+                {{ header.text }}
+                <v-icon v-if="sortBy === header.value">
+                  {{ sortDesc ? 'mdi-arrow-down' : 'mdi-arrow-up' }}
+                </v-icon>
+              </th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>${{ formatNumber(loanOutput.total_loan_amount) }}</td>
-              <td>${{ formatNumber(loanOutput.monthly_payment) }}</td>
-              <td>${{ formatNumber(loanOutput.total_amount_paid) }}</td>
-              <td>${{ formatNumber(loanOutput.total_interest_paid) }}</td>
+            <tr v-for="(output, index) in sortedLoanOutputs" :key="index">
+              <td>${{ formatNumber(output.total_loan_amount) }}</td>
+              <td>${{ formatNumber(output.monthly_payment) }}</td>
+              <td>${{ formatNumber(output.total_amount_paid) }}</td>
+              <td>${{ formatNumber(output.total_interest_paid) }}</td>
+              <td>
+                <v-btn icon small @click="deleteRow(index)">
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
+              </td>
             </tr>
           </tbody>
         </v-table>
@@ -107,7 +119,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue'
+import { defineComponent, ref, reactive, computed } from 'vue'
 import { LoanInputSchema, LoanOutputSchema } from '@/gen/server'
 import { serverApi } from '@/apis/serverApi'
 
@@ -129,16 +141,51 @@ export default defineComponent({
     const savedScenarios = ref<LoanOutputSchema[]>([])
     const scenariosDialog = ref(false)
 
+    const loanOutputs = ref<LoanOutputSchema[]>([])
+    const sortBy = ref<string>('total_loan_amount')
+    const sortDesc = ref<boolean>(false)
+
+    const headers = [
+      { text: 'Total Loan Amount', value: 'total_loan_amount' },
+      { text: 'Monthly Payment', value: 'monthly_payment' },
+      { text: 'Total Amount Paid', value: 'total_amount_paid' },
+      { text: 'Total Interest Paid', value: 'total_interest_paid' },
+    ]
+
     const calculateLoan = async () => {
       try {
         error.value = null
-        loanOutput.value =
+        const result =
           await serverApi.default.calculatorApiCalculateLoan(loanInput)
+        loanOutputs.value.push(result)
       } catch (err) {
         error.value =
           'An error occurred while calculating the loan. Please try again.'
         console.error(err)
       }
+    }
+
+    const sort = (column: string) => {
+      if (sortBy.value === column) {
+        sortDesc.value = !sortDesc.value
+      } else {
+        sortBy.value = column
+        sortDesc.value = false
+      }
+    }
+
+    const sortedLoanOutputs = computed(() => {
+      return [...loanOutputs.value].sort((a, b) => {
+        const aValue = a[sortBy.value as keyof LoanOutputSchema]
+        const bValue = b[sortBy.value as keyof LoanOutputSchema]
+        if (aValue < bValue) return sortDesc.value ? 1 : -1
+        if (aValue > bValue) return sortDesc.value ? -1 : 1
+        return 0
+      })
+    })
+
+    const deleteRow = (index: number) => {
+      loanOutputs.value.splice(index, 1)
     }
 
     const formatNumber = (value: number | string): string => {
@@ -157,6 +204,13 @@ export default defineComponent({
       scenariosDialog,
       calculateLoan,
       formatNumber,
+      loanOutputs,
+      sortedLoanOutputs,
+      headers,
+      sortBy,
+      sortDesc,
+      sort,
+      deleteRow,
     }
   },
 })
