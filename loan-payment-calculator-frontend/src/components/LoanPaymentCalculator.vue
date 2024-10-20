@@ -138,7 +138,6 @@ export default defineComponent({
     })
     const loanOutput = ref<LoanOutputSchema | null>(null)
     const error = ref<string | null>(null)
-    const savedScenarios = ref<LoanOutputSchema[]>([])
     const scenariosDialog = ref(false)
 
     const loanOutputs = ref<LoanOutputSchema[]>([])
@@ -152,16 +151,29 @@ export default defineComponent({
       { text: 'Total Interest Paid', value: 'total_interest_paid' },
     ]
 
+    const extractErrorMessage = (err: any): string => {
+      if (err.body && err?.status === 422 && err?.body?.detail) {
+        const detail = err.body.detail
+        if (
+          Array.isArray(detail) &&
+          detail.length > 0 &&
+          detail[0].ctx &&
+          detail[0].ctx.error
+        ) {
+          return detail[0].ctx.error
+        }
+      }
+      return 'An error occurred while calculating the loan. Please try again.'
+    }
+
     const calculateLoan = async () => {
       try {
         error.value = null
         const result =
           await serverApi.default.calculatorApiCalculateLoan(loanInput)
         loanOutputs.value.push(result)
-      } catch (err) {
-        error.value =
-          'An error occurred while calculating the loan. Please try again.'
-        console.error(err)
+      } catch (err: any) {
+        error.value = extractErrorMessage(err)
       }
     }
 

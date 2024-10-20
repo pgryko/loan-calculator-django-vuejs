@@ -7,8 +7,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
-    LoanCalculator: typeof import('./src/components/LoanCalculator.vue')['default']
     LoanPaymentCalculator: typeof import('./src/components/LoanPaymentCalculator.vue')['default']
   }
 }
