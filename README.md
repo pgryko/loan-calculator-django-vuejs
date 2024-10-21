@@ -19,6 +19,7 @@ Users can try different scenarios to see how they affect their payments and view
 ### Backend
 - Django
 - Django Ninja (for API)
+- Django Ninja (for API)
 - Sqlite (for development)
 - Uvicorn (ASGI server)
 
@@ -36,20 +37,16 @@ Users can try different scenarios to see how they affect their payments and view
 - Python 3.10+
 - Node.js and yarn (for local frontend development)
 
+
+
 ## Setup and Installation
 
-1. Clone the repository:
-   ```
-   git clone https://github.com/yourusername/loan-payment-calculator.git
-   cd loan-payment-calculator
-   ```
-
-2. Build and run the Docker containers:
+1. Build and run the Docker containers:
    ```
    docker-compose up --build
    ```
 
-3. The application will be available at `http://localhost:8000`
+2. The application will be available at `http://localhost:8000`
 
 ## Development
 
