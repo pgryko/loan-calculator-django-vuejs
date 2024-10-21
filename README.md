@@ -11,8 +11,12 @@ Users can try different scenarios to see how they affect their payments and view
 - Support for down payment in both percentage and dollar amount
 - Mortgage term input in years or months
 - Display of total loan amount, monthly payment, total amount paid, and total interest paid
-- Save and view multiple loan scenarios
 - Responsive design for desktop and mobile devices
+
+Note, NGINX hasn't been pre-configured to serve static file properly. It currently just serves whats in the 
+loan-payment-calculator-frontend/dist folder, but really should be built in a docker container, and then copied over
+to the NGINX container or shared mounted volume. Same goes for Django collectstatic, which is why the admin
+interface doesn't work without debug = True
 
 ## Tech Stack
 

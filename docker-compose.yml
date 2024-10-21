@@ -7,11 +7,13 @@ services:
       dockerfile: Dockerfile
 
     environment:
+      # Django admin is currently broken unless this is set to True, as I haven't configured the copying of static files into nginx
       - DEBUG=False
       - DJANGO_SETTINGS_MODULE=loan_calculator.settings
       - ALLOWED_HOSTS=localhost
 
   nginx:
+    # Note: I should be building the nginx and copying loan-payment-calculator-frontend and django static files to the nginx container
     image: nginx:alpine
     volumes:
       - ./loan-payment-calculator-frontend/dist:/app/static
