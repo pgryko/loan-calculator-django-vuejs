@@ -7,8 +7,9 @@ services:
       dockerfile: Dockerfile
 
     environment:
-      - DEBUG=True
+      - DEBUG=False
       - DJANGO_SETTINGS_MODULE=loan_calculator.settings
+      - ALLOWED_HOSTS=localhost
 
   nginx:
     image: nginx:alpine

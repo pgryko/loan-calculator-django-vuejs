@@ -34,6 +34,10 @@ ALLOWED_HOSTS = decouple.config(
     "ALLOWED_HOSTS", cast=lambda v: [s.strip() for s in v.split(",")], default=""
 )
 
+CORS_ALLOWED_ORIGINS = decouple.config(
+    "CORS_ALLOWED_ORIGINS", cast=lambda v: [s.strip() for s in v.split(",")], default=""
+)
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -132,6 +136,7 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
 if DEBUG:
     # INSTALLED_APPS += ["django_extensions"]
     CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
