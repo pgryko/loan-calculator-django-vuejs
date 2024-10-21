@@ -136,3 +136,4 @@ if DEBUG:
     # INSTALLED_APPS += ["django_extensions"]
     CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
     ALLOWED_HOSTS = ["localhost"]
+
