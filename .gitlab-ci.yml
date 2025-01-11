@@ -18,7 +18,7 @@ test python:
   before_script:
     - python3 -V # print version of python3
     - apt install -y libmagic1
-    - cd server
+    - cd loan_calculator
     - pip install --upgrade pip wheel setuptools "poetry==1.5.0"
     - poetry config virtualenvs.create false
     - poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi
