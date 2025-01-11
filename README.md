@@ -101,8 +101,18 @@ interface doesn't work without debug = True
 
 3. Start the development server:
    ```
-   yarn run serve
+   yarn dev
    ```
+
+### Generating API Schemas
+
+Make sure the backend server is running, then run the following command to generate the API schemas:
+
+   ```
+   yarn schema
+   ```
+
+This will generate typescript schemas in the `loan-payment-calculator-frontend/src/gen` directory.
 
 ## Testing
 
