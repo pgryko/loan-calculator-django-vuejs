@@ -35,7 +35,9 @@ ALLOWED_HOSTS = decouple.config(
 )
 
 CORS_ALLOWED_ORIGINS = decouple.config(
-    "CORS_ALLOWED_ORIGINS", cast=lambda v: [s.strip() for s in v.split(",")], default="http://localhost"
+    "CORS_ALLOWED_ORIGINS",
+    cast=lambda v: [s.strip() for s in v.split(",")],
+    default="http://localhost",
 )
 
 # Application definition
@@ -141,4 +143,3 @@ if DEBUG:
     # INSTALLED_APPS += ["django_extensions"]
     CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
     ALLOWED_HOSTS = ["localhost"]
-
