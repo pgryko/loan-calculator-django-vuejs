@@ -11,3 +11,33 @@ sast:
   stage: test
 include:
 - template: Security/SAST.gitlab-ci.yml
+
+test python:
+  image: python:3.11
+
+  before_script:
+    - python3 -V # print version of python3
+    - apt install -y libmagic1
+    - cd server
+    - pip install --upgrade pip wheel setuptools "poetry==1.5.0"
+    - poetry config virtualenvs.create false
+    - poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi
+
+  stage: test
+  script:
+    - python manage.py collectstatic
+    - python -m pytest --junitxml=build/pytest.xml --cov=.
+    - python manage.py makemigrations --check
+    - black . --check
+    - flake8 --ignore=E501, W503, E722, E203 --max-line-length=100 --select=src/
+    - ls -la
+  artifacts:
+    reports:
+      junit:
+       - server/build/pytest.xml
+
+  cache:
+    paths:
+      - .cache/pip
+      - venv/
+      - /root/.cache/pypoetry/
