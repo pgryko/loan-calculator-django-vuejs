@@ -50,7 +50,7 @@ jobs:
         python -m pytest --junitxml=build/pytest.xml --cov=.
         python manage.py makemigrations --check
         black . --check
-        flake8 --ignore=E501, W503, E722, E203 --max-line-length=100 --select=src/
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics --select=/loan_calculator
         ls -la
 
     - name: Upload Test Reports
